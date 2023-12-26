@@ -1,1 +1,11 @@
-rootProject.name = ""
+rootProject.name = "spring-rest-docs-sample"
+include 'bootstrap'
+include 'bootstrap:bootstrap-api'
+include 'core'
+include 'core:domain'
+include 'core:infrastructure'
+include 'core:application'
+include 'core:adapter'
+include 'core:adapter:adapter-web'
+include 'commons'
+
