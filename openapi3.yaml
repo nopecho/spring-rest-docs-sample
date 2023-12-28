@@ -1,0 +1,53 @@
+openapi: 3.0.1
+info:
+  title: Sample API
+  description: My Sample API description
+  version: 0.1.0
+servers:
+- url: http://localhost:8888
+- url: https://dev-sample.api
+- url: https://sample.api
+tags: []
+paths:
+  /samples/{sampleId}:
+    get:
+      tags:
+      - samples
+      summary: 샘플 단건을 조회 합니다.
+      description: 샘플 단건을 조회 합니다.
+      operationId: 샘플 단건 조회
+      parameters:
+      - name: sampleId
+        in: path
+        description: 샘플 아이디
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/samples-sampleId-1679806522'
+              examples:
+                샘플 단건 조회:
+                  value: "{\"id\":\"1\",\"name\":\"sample\",\"description\":\"\"}"
+components:
+  schemas:
+    samples-sampleId-1679806522:
+      required:
+      - description
+      - id
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: 샘플 이름
+        description:
+          type: string
+          description: 샘플 설명
+        id:
+          type: string
+          description: 샘플 아이디

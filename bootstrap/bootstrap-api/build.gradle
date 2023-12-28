@@ -7,20 +7,34 @@ dependencies {
     implementation(project(":core:adapter:adapter-web"))
     implementation(project(":core:infrastructure"))
 
-    swaggerUI 'org.webjars:swagger-ui:5.10.3'
+    testImplementation project(":core:domain")
+    testImplementation project(":core:application")
     testImplementation "org.springframework.restdocs:spring-restdocs-restassured"
     testImplementation "io.rest-assured:kotlin-extensions:${restassuredVersion}"
     testImplementation "io.rest-assured:json-schema-validator:${restassuredVersion}"
     testImplementation "com.epages:restdocs-api-spec:${restdocsApiSpecVersion}"
     testImplementation "com.epages:restdocs-api-spec-restassured:${restdocsApiSpecVersion}"
+    swaggerUI 'org.webjars:swagger-ui:5.10.3'
+}
+
+test {
+    finalizedBy "openapi3"
 }
 
 openapi3 {
-    server = 'http://localhost:8888'
+    servers = [
+            { url = "http://localhost:8888" },
+            { url = "https://dev-sample.api" },
+            { url = "https://sample.api" }
+    ]
     title = 'Sample API'
     description = 'My Sample API description'
     version = '0.1.0'
     format = 'yaml'
+    copy {
+        from "${project.buildDir}/api-spec"
+        into "${rootDir}"
+    }
 }
 
 swaggerSources {
@@ -29,24 +43,26 @@ swaggerSources {
     }
 }
 
-generateSwaggerUISample {
+generateReDocSample {
     dependsOn "openapi3"
-}
-
-tasks.register("copySwaggerUI") {
-    dependsOn "generateSwaggerUISample"
-    it.doFirst {
-        delete "${project.buildDir}/resources/main/static/docs"
-    }
-    it.doLast {
+    doLast {
         copy {
-            from "${generateSwaggerUISample.outputDir}"
+            from "${project.buildDir}/redoc-sample"
             into "${project.buildDir}/resources/main/static/docs"
         }
-        delete "${generateSwaggerUISample.outputDir}"
+    }
+}
+
+generateSwaggerUISample {
+    dependsOn "openapi3"
+    doLast {
+        copy {
+            from "${project.buildDir}/swagger-ui-sample"
+            into "${project.buildDir}/resources/main/static/docs"
+        }
     }
 }
 
 bootJar {
-    dependsOn "copySwaggerUI"
+    dependsOn generateSwaggerUISample
 }

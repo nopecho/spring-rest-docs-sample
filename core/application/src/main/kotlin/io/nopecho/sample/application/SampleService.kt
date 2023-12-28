@@ -24,11 +24,12 @@ class SampleService(
 
 data class SampleResult(
     val id: String,
-    val name: String
+    val name: String,
+    val description: String,
 ) {
     companion object {
         fun from(sample: Sample):SampleResult {
-            return SampleResult(sample.id, sample.name)
+            return SampleResult(sample.id, sample.name, sample.description)
         }
     }
 }
