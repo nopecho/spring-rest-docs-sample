@@ -1,6 +1,5 @@
 package io.nopecho.sample
 
-import com.epages.restdocs.apispec.ConstrainedFields
 import io.nopecho.sample.domain.Sample
 import io.nopecho.sample.infrastructure.SampleInMemoryAdapter
 import io.restassured.RestAssured.given
@@ -9,10 +8,8 @@ import io.restassured.http.ContentType
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
 import io.restassured.specification.RequestSpecification
-import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Matchers.emptyString
-import org.hamcrest.Matchers.nullValue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -21,15 +18,11 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.restdocs.RestDocumentationContextProvider
 import org.springframework.restdocs.RestDocumentationExtension
-import org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
-import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.JsonFieldType.*
 import org.springframework.restdocs.payload.PayloadDocumentation.*
 import org.springframework.restdocs.request.RequestDocumentation.*
 import org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration
-import org.springframework.restdocs.restassured.RestDocumentationFilter
-import kotlin.reflect.KVisibility
 import kotlin.reflect.full.memberProperties
 import com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper as API
 
@@ -37,9 +30,9 @@ import com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper as API
 @ExtendWith(RestDocumentationExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SampleApiTest(
-    @LocalServerPort
-    private var port: Int,
-) {
+    @LocalServerPort var port: Int
+) : TestContainerSupport() {
+
     @Autowired
     private lateinit var repository: SampleInMemoryAdapter
 

@@ -1,0 +1,10 @@
+FROM localstack/localstack:3.0
+
+COPY ./init-aws.sh /etc/localstack/init/ready.d/init-aws.sh
+
+ENV SERVICES=sns,sqs
+ENV AWS_ACCESS_KEY_ID=test
+ENV AWS_SECRET_ACCESS_KEY=test
+ENV AWS_DEFAULT_REGION=ap-northeast-2
+
+ENTRYPOINT ["docker-entrypoint.sh"]

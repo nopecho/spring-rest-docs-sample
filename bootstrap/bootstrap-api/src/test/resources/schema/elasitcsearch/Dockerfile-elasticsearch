@@ -1,0 +1,13 @@
+FROM elasticsearch:8.4.1
+
+COPY . /elastic
+
+RUN bin/elasticsearch-plugin install analysis-nori
+
+ENV ELASTIC_USERNAME=test
+ENV ELASTIC_PASSWORD=test
+ENV ES_JAVA_OPTS="-Xms1g -Xmx1g"
+ENV xpack.security.enabled=false
+ENV discovery.type=single-node
+
+ENTRYPOINT ["/elastic/init.sh"]
