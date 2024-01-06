@@ -26,12 +26,11 @@ import org.springframework.restdocs.restassured.RestAssuredRestDocumentation.doc
 import kotlin.reflect.full.memberProperties
 import com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper as API
 
-
 @ExtendWith(RestDocumentationExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SampleApiTest(
     @LocalServerPort var port: Int
-) : TestContainerSupport() {
+) {
 
     @Autowired
     private lateinit var repository: SampleInMemoryAdapter

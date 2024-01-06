@@ -31,7 +31,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9222:9200"
-      - "9333:9300"
     environment:
       - ELASTIC_USERNAME=test
       - ELASTIC_PASSWORD=test

@@ -20,7 +20,20 @@ dependencies {
     testImplementation "com.epages:restdocs-api-spec-restassured:${restdocsApiSpecVersion}"
     swaggerUI 'org.webjars:swagger-ui:5.10.3'
 }
+
+tasks.register("startDocker", Exec) {
+    workingDir rootProject.rootDir
+    commandLine "sh", "-c", "make up"
+}
+
+tasks.register("initDocker", Exec) {
+    dependsOn "startDocker"
+    workingDir rootProject.rootDir
+    commandLine "sh", "-c", "make health"
+}
+
 test {
+    dependsOn "initDocker"
     finalizedBy "openapi3"
 }
 

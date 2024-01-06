@@ -32,7 +32,12 @@ paths:
                 $ref: '#/components/schemas/samples-sampleId-1679806522'
               examples:
                 샘플 단건 조회:
-                  value: "{\"id\":\"1\",\"name\":\"sample\",\"description\":\"\"}"
+                  value: |-
+                    {
+                      "id" : "1",
+                      "name" : "sample",
+                      "description" : ""
+                    }
 components:
   schemas:
     samples-sampleId-1679806522:
