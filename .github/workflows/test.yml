@@ -4,7 +4,6 @@ on:
   push:
     branches: [ "main" ]
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,11 +16,6 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
-
-      - name: Cache Test Docker images
-        uses: ScribeMD/docker-cache@0.3.7
-        with:
-          key: docker-${{ runner.os }}-${{ hashFiles('docker-compose.yml') }}
 
       - name: Gradle Test
         run: ./gradlew clean build
