@@ -8,6 +8,6 @@ down:
 	@docker-compose -f $(LOCAL_DC_FILE) down
 
 health:
-	@sh ./schema/health.sh
+	@sh ./schema/test/health.sh
 
 default: up
