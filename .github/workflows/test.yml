@@ -1,4 +1,4 @@
-name: Deploy product internal api develop
+name: test
 
 on:
   push:
