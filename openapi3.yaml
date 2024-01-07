@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Sample API
   description: My Sample API description
-  version: 0.1.0
+  version: NOPECHO
 servers:
 - url: http://localhost:8888
 - url: https://dev-sample.api

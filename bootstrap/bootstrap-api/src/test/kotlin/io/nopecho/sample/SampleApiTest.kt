@@ -7,6 +7,7 @@ import io.restassured.builder.RequestSpecBuilder
 import io.restassured.http.ContentType
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
+import io.restassured.response.Response
 import io.restassured.specification.RequestSpecification
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Matchers.emptyString
@@ -23,7 +24,6 @@ import org.springframework.restdocs.payload.JsonFieldType.*
 import org.springframework.restdocs.payload.PayloadDocumentation.*
 import org.springframework.restdocs.request.RequestDocumentation.*
 import org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration
-import kotlin.reflect.full.memberProperties
 import com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper as API
 
 @ExtendWith(RestDocumentationExtension::class)
@@ -69,10 +69,35 @@ class SampleApiTest(
             body("name", `is`("sample"))
             body("description", emptyString())
         }
+
+        /**
+         * Given(spec) {
+         *      repository.save(sample)
+         * } Documents {
+         *      requestLine {
+         *          headers()
+         *          get()
+         *      }
+         *      requestBody {
+         *          somthing..
+         *      }
+         *      responseBody {
+         *          somthing..
+         *      }
+         * }
+         */
+
     }
 }
 
 fun Given(spec: RequestSpecification, block: () -> Unit): RequestSpecification = block().run { given(spec).log().all() }
+
+infix fun RequestSpecification.Documents(block:() -> Unit): Unit {
+    block()
+}
+
+infix fun RequestSpecification.RequestLine(block: () -> Response): Unit {
+}
 
 fun RequestSpecification.documents(description: String? = null): RequestSpecification = this.filter(
     API.document(
@@ -93,8 +118,3 @@ fun RequestSpecification.documents(description: String? = null): RequestSpecific
         )
     )
 )
-
-fun convertMap(any: Any): Map<String, Any?> {
-    return any::class.memberProperties
-        .associate { it.name to it.call(any) }
-}
